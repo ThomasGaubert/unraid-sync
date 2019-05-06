@@ -16,6 +16,13 @@ RUN touch /var/log/lsyncd/lsyncd.log
 COPY ./lsyncd.exclude /etc/lsyncd/lsyncd.exclude
 COPY ./lsyncd.conf.lua /etc/lsyncd/lsyncd.conf.lua
 
+# Set users
+RUN usermod -u 1000 www-data
+RUN usermod -a -G users www-data
+
+RUN chown -R www-data:www-data /app
+RUN chown -R www-data: /var/log/lsyncd
+
 # Run lsyncd
 COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
